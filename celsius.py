@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template
 from flask_cors import CORS 
 import numpy as np
 import tensorflow as tf
+import os
 # ========================= 
 # # CONFIG
 # =========================
@@ -35,6 +36,7 @@ def predict_get(celsius):
 # ========================= # MAIN
 # =========================
 
-app.run(debug=True)
-
-
+if __name__ == "__main__": 
+    # Esto obliga a Flask a usar la puerta pública (0.0.0.0) y el puerto de Render
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
