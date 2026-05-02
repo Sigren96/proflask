@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Celsius a Fahrenheit</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 50px; text-align: center; }
+        input, button { padding: 10px; font-size: 16px; margin: 5px; }
+        #resultado { color: #0066cc; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2>🤖 Conversor de Temperatura con TFLite</h2>
+    
+    <input type="number" id="inputCelsius" placeholder="Ingresa grados Celsius (ej. 5)" step="any">
+    <button onclick="calcular()">Calcular</button>
+
+    <h3 id="resultado">Esperando datos...</h3>
+
+    <script>
+        function calcular() {
+            // 1. Obtenemos el número que escribiste en la caja
+            const grados = document.getElementById("inputCelsius").value;
+            
+            if (grados === "") {
+                alert("Por favor ingresa un número.");
+                return;
+            }
+
+            // 2. Llamamos a tu API de Flask de forma invisible
+            fetch(`/predict/${grados}`)
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    // 3. Mostramos el resultado en la pantalla
+                    document.getElementById("resultado").innerText = 
+                        `${datos.celsius} °C son ${datos.fahrenheit.toFixed(2)} °F`;
+                })
+                .catch(error => {
+                    document.getElementById("resultado").innerText = "Hubo un error al calcular.";
+                });
+        }
+    </script>
+
+</body>
+</html>
